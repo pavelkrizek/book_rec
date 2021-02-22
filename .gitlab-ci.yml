@@ -1,0 +1,19 @@
+image: continuumio/miniconda3:latest
+
+stages:
+  - test
+
+
+tests:
+  stage: test
+  script:
+    - apt-get update -yq
+    - export PIP_EXTRA_INDEX_URL=http://10.91.68.36:8082/simple/
+    - export PIP_TRUSTED_HOST=10.91.68.36
+    - . /opt/conda/etc/profile.d/conda.sh
+    - conda env create -f environment.yml
+    - conda activate book_rec
+    - pip install -e .
+    - python -m pytest
+    - pre-commit install
+    - pre-commit run --all-files

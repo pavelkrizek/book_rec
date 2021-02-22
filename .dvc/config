@@ -1,0 +1,4 @@
+[core]
+    remote = book_rec
+['remote "book_rec"']
+    url = azure://dvc/book_rec
