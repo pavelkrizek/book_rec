@@ -23,14 +23,12 @@ top_n = st.sidebar.number_input(
     value=3,
     step=1,
 )
-similarity_type = st.sidebar.radio(
-    "Select similarity type", options=["angular", "euclidean", "manhattan", "hamming", "dot"], index=1
-)
+similarity_type = st.sidebar.radio("Select similarity type", options=["euclidean", "manhattan"], index=1)
 
 
 df = load_complete_lookup()
 books = df["book_title"].tolist()
-book_name = st.sidebar.selectbox("Select book", books)
+book_name = st.sidebar.selectbox("Select book", books, index=420)
 embedings = torch.load(DATA_PATH / "processed/embedings.pt")
 annoy_embedings = get_annoy_similarity(embedings, distance=similarity_type)
 df_books = get_the_most_similar(df, annoy_embedings, book_name, top_n)
