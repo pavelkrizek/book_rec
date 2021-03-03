@@ -6,3 +6,30 @@ The recommendation is based on simple matrix factorization (this paper motivated
 the recommendation makes sense at all, the book's covers, descriptions, and genre are also provided.
 
 Hope it helps you to broaden your book horizons!
+
+## How to run it
+
+Install requirements
+```bash
+conda env create -f environment.yml
+```
+
+```bash
+pip install -e .
+```
+
+To fetch Book-Crossing Dataset dataset, clean it and store it as parque file, run:
+```bash
+python book_rec/preprocessing.py
+```
+
+To train the model and store the book related embedding matrix, run:
+```bash
+python book_rec/train.py
+```
+
+Run the streamlit app
+```bash
+streamlit run book_rec/app.py
+```
+
