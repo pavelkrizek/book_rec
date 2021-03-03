@@ -3,6 +3,10 @@ import torch.nn as nn
 
 
 class BookModel(nn.Module):
+    """
+    Simple matrix factorization BookModel
+    """
+
     def __init__(self, n_users, n_books, n_embed, y_low=1, y_high=10.5):
         super(BookModel, self).__init__()
 
@@ -23,6 +27,10 @@ class BookModel(nn.Module):
 
 
 class Embedding(nn.Embedding):
+    """
+    Embeddings with truncated normal inicialization for better convergence
+    """
+
     def __init__(self, ni, nf):
         super().__init__(ni, nf)
         truncated_normal_(self.weight.data, std=0.01)

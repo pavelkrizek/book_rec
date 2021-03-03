@@ -3,8 +3,9 @@ from collections import namedtuple
 
 import numpy as np
 import pandas as pd
-import spacy
+import requests
 import torch
+import tqdm
 from annoy import AnnoyIndex
 
 from book_rec import DATA_PATH
@@ -12,6 +13,7 @@ from book_rec import DESC
 
 
 def create_description_embeddings_index(df, path=DATA_PATH, desc=DESC):
+    import spacy
 
     df = df.copy()
     df_desc = pd.read_parquet(path / desc)
@@ -54,3 +56,26 @@ def get_the_most_similar(df, annoy_embedings, book_name, top_n):
         lambda df: df["book_index"].isin(top_n_index_book),
         ["book_title", "book_author", "categories", "average_rating", "image_url_m"],
     ].reset_index(drop=True)
+
+
+def get_additional_info(isbn_list):
+    storage = []
+    errors = 0
+    isbn_data = namedtuple("ISBN", ["isbn", "average_rating", "ratings_count", "categories", "description"])
+    for isbn in tqdm(isbn_list):
+        url = f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}"
+        try:
+            data = requests.get(url).json().get("items", None)[0]["volumeInfo"]
+            storage.append(
+                isbn_data(
+                    isbn=isbn,
+                    average_rating=data.get("averageRating", None),
+                    ratings_count=data.get("ratingsCount", None),
+                    categories=data.get("categories", None),
+                    description=data.get("description", None),
+                )
+            )
+        except Exception:
+            errors += 1
+
+    return storage

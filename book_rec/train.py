@@ -15,7 +15,7 @@ from book_rec.engine import train
 from book_rec.model import BookModel
 from book_rec.preprocessing import save_lookup
 
-CROSS_VALIDATE = True
+CROSS_VALIDATE = False
 N_EMBED = 50
 TRAIN_BS = 32
 VALID_BS = 8
@@ -25,6 +25,9 @@ TARGET = "book_rating"
 
 
 def run(df, fold=None, save_embeddings=False, path=DATA_PATH):
+    """
+    Modeling pipeline function
+    """
     df = df.copy()
     features = ["user_id", "book_auth"]
     feat_n = {}
@@ -64,7 +67,7 @@ def run(df, fold=None, save_embeddings=False, path=DATA_PATH):
                 best_mse = mse
             else:
                 early_stopping_counter += 1
-            if early_stopping_counter > 3:
+            if early_stopping_counter > 2:
                 break
 
     if save_embeddings:
@@ -75,6 +78,7 @@ def run(df, fold=None, save_embeddings=False, path=DATA_PATH):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     df = pd.read_parquet(DATA_PATH / "complete_data.parquet")
     if CROSS_VALIDATE:
         for fold in range(5):

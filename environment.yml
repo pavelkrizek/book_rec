@@ -8,7 +8,7 @@ dependencies:
   - pytorch
   - scikit-learn
   - streamlit
-  - spacy
+  - tqdm
 
   - pip:
     - black==20.8b1

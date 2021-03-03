@@ -3,6 +3,9 @@ import torch.nn as nn
 
 
 def train(data_loader, model, optimizer):
+    """
+    Train the model with optimizer with data from data_loader
+    """
     model.train()
     for data in data_loader:
         features, targets = data
@@ -14,6 +17,9 @@ def train(data_loader, model, optimizer):
 
 
 def evaluate(data_loader, model):
+    """
+    Evaluate model based on data from data_loader
+    """
     final_predictions = []
     final_targets = []
     model.eval()
