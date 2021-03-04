@@ -79,7 +79,7 @@ def run(df, fold=None, save_embeddings=False, path=DATA_PATH):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    df = pd.read_parquet(DATA_PATH / "complete_data.parquet")
+    df = pd.read_parquet(DATA_PATH / "processed/complete_data.parquet")
     if CROSS_VALIDATE:
         for fold in range(5):
             run(df, fold=fold)

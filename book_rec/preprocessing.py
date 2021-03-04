@@ -97,4 +97,4 @@ if __name__ == "__main__":
     df = get_clean_data(dfs).pipe(add_description_genre).pipe(add_kfolds_col)
     save_lookup(df)
     logging.info("Storing complete preprocessed data")
-    df.to_parquet(DATA_PATH / "complete_data.parquet")
+    df.to_parquet(DATA_PATH / "processed/complete_data.parquet")
